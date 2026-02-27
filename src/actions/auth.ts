@@ -1,21 +1,11 @@
 "use server";
 
-/**
- * Auth Server Actions
- *
- * These actions are scaffolded and ready to wire up to Supabase Auth.
- * Each action follows the pattern: validate → call Supabase → return result.
- *
- * Prerequisites:
- * 1. Install: `pnpm add @supabase/supabase-js @supabase/ssr`
- * 2. Uncomment the Supabase client in `lib/supabase/server.ts`
- * 3. Set env vars in `.env.local`
- */
-
-import { z } from "zod";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+import { emailTemplates, sendEmail } from "@/lib/email";
+import { env } from "@/lib/env";
+import { createClient } from "@/lib/supabase/server";
 
-// ─── Schemas ───
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -31,13 +21,21 @@ const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
 });
 
-// ─── Types ───
+type AuthField = "name" | "email" | "password";
+
 export type AuthResult = {
   success: boolean;
+  message?: string;
   error?: string;
+  fieldErrors?: Partial<Record<AuthField, string>>;
 };
 
-// ─── Actions ───
+function getFieldError(
+  fieldErrors: Record<string, string[] | undefined>,
+  field: AuthField,
+) {
+  return fieldErrors[field]?.[0];
+}
 
 export async function login(
   _prevState: AuthResult | null,
@@ -50,21 +48,27 @@ export async function login(
 
   const parsed = loginSchema.safeParse(raw);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.errors[0].message };
+    const fieldErrors = parsed.error.flatten().fieldErrors;
+    return {
+      success: false,
+      error: "Please check your credentials.",
+      fieldErrors: {
+        email: getFieldError(fieldErrors, "email"),
+        password: getFieldError(fieldErrors, "password"),
+      },
+    };
   }
 
-  // TODO: Uncomment when Supabase is configured
-  // const supabase = await createClient();
-  // const { error } = await supabase.auth.signInWithPassword({
-  //   email: parsed.data.email,
-  //   password: parsed.data.password,
-  // });
-  //
-  // if (error) {
-  //   return { success: false, error: error.message };
-  // }
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email: parsed.data.email,
+    password: parsed.data.password,
+  });
 
-  // Placeholder: simulate success
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
   redirect("/dashboard");
 }
 
@@ -80,24 +84,61 @@ export async function signup(
 
   const parsed = signupSchema.safeParse(raw);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.errors[0].message };
+    const fieldErrors = parsed.error.flatten().fieldErrors;
+    return {
+      success: false,
+      error: "Please correct the highlighted fields.",
+      fieldErrors: {
+        name: getFieldError(fieldErrors, "name"),
+        email: getFieldError(fieldErrors, "email"),
+        password: getFieldError(fieldErrors, "password"),
+      },
+    };
   }
 
-  // TODO: Uncomment when Supabase is configured
-  // const supabase = await createClient();
-  // const { error } = await supabase.auth.signUp({
-  //   email: parsed.data.email,
-  //   password: parsed.data.password,
-  //   options: {
-  //     data: { full_name: parsed.data.name },
-  //   },
-  // });
-  //
-  // if (error) {
-  //   return { success: false, error: error.message };
-  // }
+  const normalizedName = parsed.data.name.trim();
+  const [firstName, ...lastParts] = normalizedName.split(/\s+/);
+  const lastName = lastParts.join(" ") || null;
 
-  // Placeholder: simulate success
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signUp({
+    email: parsed.data.email,
+    password: parsed.data.password,
+    options: {
+      data: { full_name: normalizedName },
+      emailRedirectTo: `${env.NEXT_PUBLIC_APP_URL}/api/auth/callback`,
+    },
+  });
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  if (data.user) {
+    const { error: profileError } = await supabase.from("profiles").upsert(
+      {
+        id: data.user.id,
+        email: parsed.data.email,
+        first_name: firstName ?? null,
+        last_name: lastName,
+        full_name: normalizedName,
+      },
+      { onConflict: "id" },
+    );
+
+    if (profileError) {
+      return { success: false, error: profileError.message };
+    }
+
+    await sendEmail({
+      userId: data.user.id,
+      template: "welcome",
+      to: parsed.data.email,
+      subject: "Welcome to AinzStack",
+      html: emailTemplates.welcome({ name: normalizedName }),
+    });
+  }
+
   redirect("/login?message=Check your email to verify your account");
 }
 
@@ -109,44 +150,56 @@ export async function forgotPassword(
 
   const parsed = forgotPasswordSchema.safeParse(raw);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.errors[0].message };
+    const fieldErrors = parsed.error.flatten().fieldErrors;
+    return {
+      success: false,
+      error: "Please enter a valid email address.",
+      fieldErrors: {
+        email: getFieldError(fieldErrors, "email"),
+      },
+    };
   }
 
-  // TODO: Uncomment when Supabase is configured
-  // const supabase = await createClient();
-  // const { error } = await supabase.auth.resetPasswordForEmail(
-  //   parsed.data.email,
-  //   { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password` },
-  // );
-  //
-  // if (error) {
-  //   return { success: false, error: error.message };
-  // }
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${env.NEXT_PUBLIC_APP_URL}/login?reset=1`,
+  });
 
-  return { success: true };
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  return {
+    success: true,
+    message: "Password reset email sent. Check your inbox.",
+  };
 }
 
 export async function logout(): Promise<void> {
-  // TODO: Uncomment when Supabase is configured
-  // const supabase = await createClient();
-  // await supabase.auth.signOut();
+  const supabase = await createClient();
+  await supabase.auth.signOut();
 
   redirect("/login");
 }
 
-export async function loginWithGoogle(): Promise<void> {
-  // TODO: Uncomment when Supabase is configured
-  // const supabase = await createClient();
-  // const { data, error } = await supabase.auth.signInWithOAuth({
-  //   provider: "google",
-  //   options: {
-  //     redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback`,
-  //   },
-  // });
-  //
-  // if (data.url) {
-  //   redirect(data.url);
-  // }
+export async function loginWithGoogle(): Promise<AuthResult> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${env.NEXT_PUBLIC_APP_URL}/api/auth/callback`,
+      queryParams: {
+        prompt: "select_account",
+      },
+    },
+  });
 
-  redirect("/dashboard");
+  if (error || !data.url) {
+    return {
+      success: false,
+      error: error?.message ?? "Unable to start Google sign-in.",
+    };
+  }
+
+  redirect(data.url);
 }

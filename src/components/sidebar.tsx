@@ -12,6 +12,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
+import { logout } from "@/actions/auth";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -99,15 +100,18 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="p-2">
-        <button
-          className={cn(
-            "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            collapsed && "justify-center px-0",
-          )}
-        >
-          <LogOut className="size-4 shrink-0" />
-          {!collapsed && <span>Log out</span>}
-        </button>
+        <form action={logout}>
+          <button
+            type="submit"
+            className={cn(
+              "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+              collapsed && "justify-center px-0",
+            )}
+          >
+            <LogOut className="size-4 shrink-0" />
+            {!collapsed && <span>Log out</span>}
+          </button>
+        </form>
       </div>
     </aside>
   );

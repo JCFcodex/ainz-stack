@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { Mail, Loader2, CheckCircle2 } from "lucide-react";
+import { forgotPassword } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,34 +17,41 @@ const forgotPasswordSchema = z.object({
 type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 
 export function ForgotPasswordForm() {
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
   async function onSubmit(data: ForgotPasswordValues) {
-    setError(null);
-    setSuccess(false);
+    setSubmitError(null);
+    setSuccessMessage(null);
+    clearErrors();
 
-    // TODO: Replace with actual Server Action call
-    // const result = await forgotPassword(data);
-    // if (result?.error) {
-    //   setError(result.error);
-    //   return;
-    // }
+    const formData = new FormData();
+    formData.set("email", data.email);
 
-    // Placeholder: simulate success
-    await new Promise((r) => setTimeout(r, 1000));
-    setSuccess(true);
+    const result = await forgotPassword(null, formData);
+    if (!result.success) {
+      if (result.fieldErrors?.email) {
+        setError("email", { message: result.fieldErrors.email });
+      }
+
+      setSubmitError(result.error ?? "Unable to send reset email.");
+      return;
+    }
+
+    setSuccessMessage(result.message ?? "Check your email for reset steps.");
   }
 
-  if (success) {
+  if (successMessage) {
     return (
       <div className="flex flex-col items-center gap-3 py-4 text-center">
         <div className="flex size-10 items-center justify-center rounded-full bg-success/10">
@@ -51,9 +59,7 @@ export function ForgotPasswordForm() {
         </div>
         <div>
           <p className="text-sm font-medium">Check your email</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            We sent you a link to reset your password.
-          </p>
+          <p className="mt-1 text-xs text-muted-foreground">{successMessage}</p>
         </div>
       </div>
     );
@@ -61,10 +67,9 @@ export function ForgotPasswordForm() {
 
   return (
     <div className="space-y-4">
-      {/* Form Error */}
-      {error && (
+      {submitError && (
         <div className="rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">
-          {error}
+          {submitError}
         </div>
       )}
 
@@ -86,7 +91,7 @@ export function ForgotPasswordForm() {
           ) : (
             <Mail className="size-3.5" />
           )}
-          {isSubmitting ? "Sending…" : "Send Reset Link"}
+          {isSubmitting ? "Sending..." : "Send Reset Link"}
         </Button>
       </form>
     </div>
