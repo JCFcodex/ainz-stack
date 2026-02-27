@@ -185,7 +185,10 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <AnimatedSection className="border-t border-border py-16 sm:py-24">
+    <AnimatedSection
+      id="features"
+      className="border-t border-border py-16 sm:py-24"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <FadeIn>
@@ -236,7 +239,10 @@ function FeaturesSection() {
 /* ─────────────────── Playground ─────────────────── */
 function PlaygroundSection() {
   return (
-    <AnimatedSection className="border-t border-border py-16 sm:py-24">
+    <AnimatedSection
+      id="playground"
+      className="border-t border-border py-16 sm:py-24"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <FadeIn>
@@ -439,7 +445,10 @@ const plans = [
 
 function PricingSection() {
   return (
-    <AnimatedSection className="border-t border-border py-16 sm:py-24">
+    <AnimatedSection
+      id="pricing"
+      className="border-t border-border py-16 sm:py-24"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <FadeIn>

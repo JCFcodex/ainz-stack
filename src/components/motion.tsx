@@ -103,10 +103,12 @@ export function StaggerItem({
 export function AnimatedSection({
   children,
   className,
+  id,
   delay = 0,
 }: {
   children: React.ReactNode;
   className?: string;
+  id?: string;
   delay?: number;
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -114,6 +116,7 @@ export function AnimatedSection({
 
   return (
     <motion.section
+      id={id}
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
