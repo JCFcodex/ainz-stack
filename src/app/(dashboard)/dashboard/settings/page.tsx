@@ -1,23 +1,40 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { NotificationPreferencesForm } from "@/components/forms";
+import { env } from "@/lib/env";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Settings",
 };
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const notificationPreferencesResponse = user
+    ? await supabase
+        .from("notification_preferences")
+        .select("marketing_emails,payment_alerts,security_alerts")
+        .eq("user_id", user.id)
+        .maybeSingle()
+    : { data: null };
+
+  const notificationPreferences = notificationPreferencesResponse.data;
+
   return (
     <div className="space-y-6">
       <div>
@@ -27,70 +44,46 @@ export default function SettingsPage() {
         </p>
       </div>
 
-      {/* General */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">General</CardTitle>
-          <CardDescription>App display and brand settings.</CardDescription>
+          <CardDescription>Core account and app-level settings.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
+            <Label htmlFor="account-email">Account Email</Label>
+            <Input
+              id="account-email"
+              defaultValue={user?.email ?? ""}
+              type="email"
+              disabled
+            />
+          </div>
+          <div className="space-y-1.5">
             <Label htmlFor="app-name">App Name</Label>
-            <Input id="app-name" defaultValue="My SaaS App" />
+            <Input id="app-name" defaultValue={env.NEXT_PUBLIC_APP_NAME} disabled />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="app-url">App URL</Label>
-            <Input id="app-url" defaultValue="https://myapp.com" />
+            <Input id="app-url" defaultValue={env.NEXT_PUBLIC_APP_URL} disabled />
           </div>
         </CardContent>
-        <CardFooter>
-          <Button size="sm">Save</Button>
-        </CardFooter>
       </Card>
 
-      {/* Notifications */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Notifications</CardTitle>
           <CardDescription>Choose what you get notified about.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
-          {[
-            {
-              label: "Marketing emails",
-              desc: "Receive product updates and tips.",
-            },
-            {
-              label: "Payment alerts",
-              desc: "Get notified about payment events.",
-            },
-            {
-              label: "Security alerts",
-              desc: "Important security notifications.",
-            },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="flex items-center justify-between rounded-lg border border-border p-3"
-            >
-              <div>
-                <p className="text-sm font-medium">{item.label}</p>
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
-              </div>
-              <label className="relative inline-flex cursor-pointer items-center">
-                <input
-                  type="checkbox"
-                  className="peer sr-only"
-                  defaultChecked
-                />
-                <div className="h-5 w-9 rounded-full bg-border peer-checked:bg-foreground after:absolute after:left-[2px] after:top-[2px] after:size-4 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-4" />
-              </label>
-            </div>
-          ))}
+        <CardContent>
+          <NotificationPreferencesForm
+            defaultMarketingEmails={notificationPreferences?.marketing_emails ?? true}
+            defaultPaymentAlerts={notificationPreferences?.payment_alerts ?? true}
+            defaultSecurityAlerts={notificationPreferences?.security_alerts ?? true}
+          />
         </CardContent>
       </Card>
 
-      {/* Danger Zone */}
       <Card className="border-destructive/30">
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
@@ -109,8 +102,8 @@ export default function SettingsPage() {
                 Download all your data as JSON.
               </p>
             </div>
-            <Button variant="outline" size="sm">
-              Export
+            <Button variant="outline" size="sm" disabled>
+              Coming Soon
             </Button>
           </div>
           <div className="flex items-center justify-between rounded-lg border border-destructive/30 p-3">
@@ -120,8 +113,8 @@ export default function SettingsPage() {
                 Permanently delete your account and data.
               </p>
             </div>
-            <Button variant="destructive" size="sm">
-              Delete
+            <Button variant="destructive" size="sm" disabled>
+              Coming Soon
             </Button>
           </div>
         </CardContent>
