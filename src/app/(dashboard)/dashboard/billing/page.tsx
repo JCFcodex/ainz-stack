@@ -1,58 +1,131 @@
 import type { Metadata } from "next";
-import { Check, CreditCard } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Check, CreditCard, ExternalLink } from "lucide-react";
+import {
+  createBillingPortalSession,
+  createCheckoutSession,
+} from "@/actions/billing";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { createClient } from "@/lib/supabase/server";
 
-export const metadata: Metadata = {
-  title: "Billing",
+type PlanKey = "free" | "pro" | "enterprise";
+
+type PlanCard = {
+  key: PlanKey;
+  name: string;
+  price: string;
+  period: string;
+  features: string[];
 };
 
-const plans = [
+const plans: PlanCard[] = [
   {
+    key: "free",
     name: "Free",
     price: "$0",
-    current: true,
-    features: ["Full boilerplate access", "Community support"],
+    period: "forever",
+    features: ["Full boilerplate access", "Community support", "MIT License"],
   },
   {
+    key: "pro",
     name: "Pro",
     price: "$29",
-    current: false,
+    period: "per month",
     features: [
       "Everything in Free",
       "Lifetime updates",
       "Priority support",
       "Premium components",
+      "Email templates",
     ],
   },
   {
+    key: "enterprise",
     name: "Enterprise",
     price: "$99",
-    current: false,
+    period: "per month",
     features: [
       "Everything in Pro",
-      "Multi-tenant",
+      "Multi-tenant support",
+      "Custom integrations",
       "Dedicated support",
-      "White-label",
+      "White-label license",
     ],
   },
 ];
 
-const invoices = [
-  { id: "INV-001", date: "Feb 1, 2026", amount: "$0.00", status: "Paid" },
-  { id: "INV-002", date: "Jan 1, 2026", amount: "$0.00", status: "Paid" },
-];
+export const metadata: Metadata = {
+  title: "Billing",
+};
 
-export default function BillingPage() {
+async function checkoutAction(formData: FormData) {
+  "use server";
+
+  await createCheckoutSession(formData);
+}
+
+async function billingPortalAction() {
+  "use server";
+
+  await createBillingPortalSession();
+}
+
+function toTitleCase(value: string) {
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function formatAmount(amountCents: number, currency: string) {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currency.toUpperCase(),
+    }).format(amountCents / 100);
+  } catch {
+    return `$${(amountCents / 100).toFixed(2)}`;
+  }
+}
+
+export default async function BillingPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const [subscriptionResponse, invoicesResponse] = await Promise.all([
+    user
+      ? supabase
+          .from("subscriptions")
+          .select(
+            "plan,status,stripe_customer_id,current_period_start,current_period_end",
+          )
+          .eq("user_id", user.id)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
+    user
+      ? supabase
+          .from("invoices")
+          .select("id,stripe_invoice_id,amount_cents,currency,status,created_at,hosted_invoice_url")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(10)
+      : Promise.resolve({ data: [] }),
+  ]);
+
+  const subscription = subscriptionResponse.data;
+  const invoices = invoicesResponse.data ?? [];
+  const currentPlan = subscription?.plan ?? "free";
+
   return (
     <div className="space-y-6">
       <div>
@@ -62,104 +135,144 @@ export default function BillingPage() {
         </p>
       </div>
 
-      {/* Current Plan */}
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-base">Current Plan</CardTitle>
-              <CardDescription>You are on the Free plan.</CardDescription>
+              <CardDescription>
+                {`You are on the ${toTitleCase(currentPlan)} plan.`}
+              </CardDescription>
             </div>
-            <Badge variant="secondary">Free</Badge>
+            <Badge variant="secondary">{toTitleCase(currentPlan)}</Badge>
           </div>
         </CardHeader>
         <CardContent>
           <div className="grid gap-3 sm:grid-cols-3">
-            {plans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`rounded-lg border p-4 ${
-                  plan.current ? "border-foreground" : "border-border"
-                }`}
-              >
-                <p className="text-sm font-semibold">{plan.name}</p>
-                <p className="mt-1 text-2xl font-bold">{plan.price}</p>
-                <p className="text-xs text-muted-foreground">
-                  {plan.name === "Free" ? "forever" : "one-time"}
-                </p>
-                <Separator className="my-3" />
-                <ul className="space-y-1">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-center gap-1.5 text-xs">
-                      <Check className="size-3 text-foreground" />
-                      <span className="text-muted-foreground">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button
-                  size="sm"
-                  className="mt-3 w-full"
-                  variant={plan.current ? "secondary" : "default"}
-                  disabled={plan.current}
+            {plans.map((plan) => {
+              const isCurrent = plan.key === currentPlan;
+              const canPurchase = plan.key !== "free";
+
+              return (
+                <div
+                  key={plan.key}
+                  className={`rounded-lg border p-4 ${
+                    isCurrent ? "border-foreground" : "border-border"
+                  }`}
                 >
-                  {plan.current ? "Current" : "Upgrade"}
-                </Button>
-              </div>
-            ))}
+                  <p className="text-sm font-semibold">{plan.name}</p>
+                  <p className="mt-1 text-2xl font-bold">{plan.price}</p>
+                  <p className="text-xs text-muted-foreground">{plan.period}</p>
+                  <Separator className="my-3" />
+                  <ul className="space-y-1">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-1.5 text-xs">
+                        <Check className="size-3 text-foreground" />
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-3">
+                    {isCurrent ? (
+                      <Button size="sm" className="w-full" variant="secondary" disabled>
+                        Current
+                      </Button>
+                    ) : canPurchase ? (
+                      <form action={checkoutAction}>
+                        <input type="hidden" name="plan" value={plan.key} />
+                        <Button size="sm" className="w-full" type="submit">
+                          {`Choose ${plan.name}`}
+                        </Button>
+                      </form>
+                    ) : (
+                      <Button size="sm" className="w-full" variant="outline" disabled>
+                        Included
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
 
-      {/* Payment Method */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Payment Method</CardTitle>
-          <CardDescription>Add or update your card.</CardDescription>
+          <CardDescription>Update cards and invoices in Stripe.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-3 rounded-lg border border-border p-3">
             <CreditCard className="size-5 text-muted-foreground" />
             <div>
-              <p className="text-sm font-medium">No payment method</p>
+              <p className="text-sm font-medium">
+                {subscription?.stripe_customer_id
+                  ? "Stripe customer connected"
+                  : "No payment method"}
+              </p>
               <p className="text-xs text-muted-foreground">
-                Add a card to upgrade your plan.
+                {subscription?.stripe_customer_id
+                  ? "Open billing portal to manage cards and subscriptions."
+                  : "Pick a paid plan to add payment details."}
               </p>
             </div>
           </div>
         </CardContent>
-        <CardFooter>
-          <Button size="sm" variant="outline">
-            Add Payment Method
-          </Button>
-        </CardFooter>
+        {subscription?.stripe_customer_id && (
+          <div className="px-6 pb-6">
+            <form action={billingPortalAction}>
+              <Button size="sm" variant="outline" type="submit" className="gap-2">
+                <ExternalLink className="size-3.5" />
+                Open Billing Portal
+              </Button>
+            </form>
+          </div>
+        )}
       </Card>
 
-      {/* Invoices */}
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Invoice History</CardTitle>
           <CardDescription>Your recent invoices.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            {invoices.map((inv) => (
-              <div
-                key={inv.id}
-                className="flex items-center justify-between rounded-lg border border-border p-3"
-              >
-                <div className="flex items-center gap-3">
-                  <p className="text-sm font-medium">{inv.id}</p>
-                  <p className="text-xs text-muted-foreground">{inv.date}</p>
+          {invoices.length === 0 ? (
+            <p className="rounded-lg border border-border p-3 text-sm text-muted-foreground">
+              No invoices yet.
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {invoices.map((invoice) => (
+                <div
+                  key={invoice.id}
+                  className="flex items-center justify-between rounded-lg border border-border p-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <p className="text-sm font-medium">
+                      {invoice.stripe_invoice_id ?? invoice.id.slice(0, 8)}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Date(invoice.created_at).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <p className="text-sm">
+                      {formatAmount(invoice.amount_cents, invoice.currency)}
+                    </p>
+                    <Badge variant="secondary" className="text-xs">
+                      {toTitleCase(invoice.status)}
+                    </Badge>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <p className="text-sm">{inv.amount}</p>
-                  <Badge variant="secondary" className="text-xs">
-                    {inv.status}
-                  </Badge>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
