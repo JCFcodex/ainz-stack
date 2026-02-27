@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
+import { FadeIn } from "@/components/motion";
 
 export default function AuthLayout({
   children,
@@ -11,10 +12,10 @@ export default function AuthLayout({
       <div className="mb-8">
         <Logo size="lg" />
       </div>
-      <div className="w-full max-w-sm">{children}</div>
+      <FadeIn className="w-full max-w-sm">{children}</FadeIn>
       <p className="mt-6 text-xs text-muted-foreground">
-        <Link href="/" className="hover:text-foreground transition-colors">
-          ← Back to home
+        <Link href="/" className="transition-colors hover:text-foreground">
+          {"<- Back to home"}
         </Link>
       </p>
     </div>
