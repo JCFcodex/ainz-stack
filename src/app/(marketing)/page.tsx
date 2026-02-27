@@ -139,7 +139,6 @@ function HeroSection() {
   );
 }
 
-/* ─────────────────── Features ─────────────────── */
 const features = [
   {
     icon: Shield,
@@ -181,17 +180,9 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <AnimatedSection
-      id="features"
-      className="border-t border-border py-20 sm:py-28"
-    >
+    <AnimatedSection id="features" className="border-t border-border py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
-          <FadeIn>
-            <Badge variant="outline" className="mb-3">
-              Features
-            </Badge>
-          </FadeIn>
           <FadeIn delay={0.1}>
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
               Everything you need to ship
@@ -199,8 +190,7 @@ function FeaturesSection() {
           </FadeIn>
           <FadeIn delay={0.15}>
             <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-              Pre-built features so you can focus on what makes your product
-              unique.
+              Pre-built features so you can focus on what makes your product unique.
             </p>
           </FadeIn>
         </div>
@@ -211,10 +201,10 @@ function FeaturesSection() {
         >
           {features.map((feature) => (
             <StaggerItem key={feature.title}>
-              <Card className="group border-border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+              <Card className="group rounded-2xl border-transparent bg-secondary/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-md">
                 <CardHeader className="pb-3">
-                  <div className="mb-2 flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-secondary to-secondary/60 transition-colors group-hover:bg-foreground/5">
-                    <feature.icon className="size-4 text-foreground" />
+                  <div className="mb-2 flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-secondary to-secondary/60 transition-colors group-hover:bg-foreground/5">
+                    <feature.icon className="size-5 text-foreground" />
                   </div>
                   <CardTitle className="text-base">{feature.title}</CardTitle>
                 </CardHeader>
@@ -232,20 +222,11 @@ function FeaturesSection() {
   );
 }
 
-/* ─────────────────── Playground ─────────────────── */
 function PlaygroundSection() {
   return (
-    <AnimatedSection
-      id="playground"
-      className="border-t border-border py-20 sm:py-28"
-    >
+    <AnimatedSection id="playground" className="border-t border-border py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
-          <FadeIn>
-            <Badge variant="outline" className="mb-3">
-              UI Playground
-            </Badge>
-          </FadeIn>
           <FadeIn delay={0.1}>
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
               Components out of the box
@@ -263,9 +244,8 @@ function PlaygroundSection() {
           className="mt-10 grid gap-4 sm:mt-12 lg:grid-cols-2 lg:gap-6"
           staggerDelay={0.1}
         >
-          {/* Buttons Showcase */}
           <StaggerItem>
-            <Card className="transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+            <Card className="rounded-2xl border-transparent bg-secondary/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-md">
               <CardHeader className="pb-3">
                 <div className="flex items-center gap-2">
                   <MousePointerClick className="size-4 text-muted-foreground" />
@@ -304,9 +284,8 @@ function PlaygroundSection() {
             </Card>
           </StaggerItem>
 
-          {/* Form Showcase */}
           <StaggerItem>
-            <Card className="transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+            <Card className="rounded-2xl border-transparent bg-secondary/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-md">
               <CardHeader className="pb-3">
                 <div className="flex items-center gap-2">
                   <Type className="size-4 text-muted-foreground" />
@@ -316,19 +295,11 @@ function PlaygroundSection() {
               <CardContent className="space-y-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="playground-email">Email</Label>
-                  <Input
-                    id="playground-email"
-                    type="email"
-                    placeholder="you@example.com"
-                  />
+                  <Input id="playground-email" type="email" placeholder="you@example.com" />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="playground-password">Password</Label>
-                  <Input
-                    id="playground-password"
-                    type="password"
-                    placeholder="••••••••"
-                  />
+                  <Input id="playground-password" type="password" placeholder="********" />
                 </div>
                 <Button className="w-full" size="sm">
                   Submit
@@ -337,9 +308,8 @@ function PlaygroundSection() {
             </Card>
           </StaggerItem>
 
-          {/* Cards Showcase */}
           <StaggerItem>
-            <Card className="transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+            <Card className="rounded-2xl border-transparent bg-secondary/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-md">
               <CardHeader className="pb-3">
                 <div className="flex items-center gap-2">
                   <Layers className="size-4 text-muted-foreground" />
@@ -348,12 +318,12 @@ function PlaygroundSection() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-lg border border-border bg-secondary/50 p-3">
+                  <div className="rounded-xl border border-border bg-secondary/50 p-3">
                     <p className="text-xs text-muted-foreground">Users</p>
                     <p className="text-lg font-semibold">2,847</p>
                     <p className="text-xs text-muted-foreground">+12.5%</p>
                   </div>
-                  <div className="rounded-lg border border-border bg-secondary/50 p-3">
+                  <div className="rounded-xl border border-border bg-secondary/50 p-3">
                     <p className="text-xs text-muted-foreground">Revenue</p>
                     <p className="text-lg font-semibold">$14.2k</p>
                     <p className="text-xs text-muted-foreground">+8.1%</p>
@@ -363,13 +333,12 @@ function PlaygroundSection() {
             </Card>
           </StaggerItem>
 
-          {/* Badges Showcase */}
           <StaggerItem>
-            <Card className="transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+            <Card className="rounded-2xl border-transparent bg-secondary/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-md">
               <CardHeader className="pb-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="size-4 text-muted-foreground" />
-                  <CardTitle className="text-sm">Badges & Status</CardTitle>
+                  <CardTitle className="text-sm">Badges and Status</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
