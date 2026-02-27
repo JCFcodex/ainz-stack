@@ -62,8 +62,8 @@ function FooterLinks({ links }: { links: FooterLink[] }) {
 export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <Logo size="sm" />
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">

@@ -20,7 +20,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/60 backdrop-blur-xl backdrop-saturate-[1.8]">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Logo size="md" />
@@ -83,7 +83,7 @@ export function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   aria-current={pathname === link.href ? "page" : undefined}
                   className={cn(
-                    "rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent",
+                    "min-h-11 rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-accent active:bg-accent",
                     pathname === link.href
                       ? "text-foreground"
                       : "text-muted-foreground",
@@ -93,10 +93,10 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="mt-2 flex flex-col gap-2">
-                <Button variant="outline" size="sm" asChild>
+                <Button variant="outline" size="sm" className="min-h-11" asChild>
                   <Link href="/login">Log in</Link>
                 </Button>
-                <Button size="sm" asChild>
+                <Button size="sm" className="min-h-11" asChild>
                   <Link href="/signup">Get Started</Link>
                 </Button>
               </div>
