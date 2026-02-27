@@ -358,7 +358,6 @@ function PlaygroundSection() {
   );
 }
 
-/* ─────────────────── Pricing ─────────────────── */
 const plans = [
   {
     name: "Free",
@@ -410,17 +409,9 @@ const plans = [
 
 function PricingSection() {
   return (
-    <AnimatedSection
-      id="pricing"
-      className="border-t border-border py-20 sm:py-28"
-    >
+    <AnimatedSection id="pricing" className="border-t border-border py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
-          <FadeIn>
-            <Badge variant="outline" className="mb-3">
-              Pricing
-            </Badge>
-          </FadeIn>
           <FadeIn delay={0.1}>
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
               Simple, transparent pricing
@@ -440,33 +431,26 @@ function PricingSection() {
           {plans.map((plan) => (
             <StaggerItem key={plan.name}>
               <Card
-                className={`transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+                className={`rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
                   plan.highlight
-                    ? "border-foreground shadow-[0_0_30px_-5px_rgba(0,0,0,0.1)]"
-                    : "border-border"
+                    ? "border-foreground bg-card shadow-[0_4px_30px_-6px_rgba(0,0,0,0.12)]"
+                    : "border-transparent bg-secondary/20 hover:border-border hover:bg-card"
                 }`}
               >
                 <CardHeader>
-                  {plan.highlight && (
-                    <Badge className="mb-2 w-fit">Most Popular</Badge>
-                  )}
+                  {plan.highlight && <Badge className="mb-2 w-fit">Most Popular</Badge>}
                   <CardTitle className="text-lg">{plan.name}</CardTitle>
                   <CardDescription>{plan.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <span className="text-3xl font-bold">{plan.price}</span>
-                    <span className="ml-1 text-sm text-muted-foreground">
-                      {plan.period}
-                    </span>
+                    <span className="text-4xl font-extrabold tracking-tight">{plan.price}</span>
+                    <span className="ml-1 text-sm text-muted-foreground">{plan.period}</span>
                   </div>
                   <Separator />
                   <ul className="space-y-2">
                     {plan.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-center gap-2 text-sm"
-                      >
+                      <li key={feature} className="flex items-center gap-2 text-sm">
                         <Check className="size-3.5 text-foreground" />
                         <span className="text-muted-foreground">{feature}</span>
                       </li>
@@ -474,11 +458,7 @@ function PricingSection() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button
-                    className="w-full"
-                    variant={plan.highlight ? "default" : "outline"}
-                    asChild
-                  >
+                  <Button className="w-full" variant={plan.highlight ? "default" : "outline"} asChild>
                     <Link href="/signup">{plan.cta}</Link>
                   </Button>
                 </CardFooter>
@@ -491,14 +471,13 @@ function PricingSection() {
   );
 }
 
-/* ─────────────────── Page ─────────────────── */
 function CTASection() {
   return (
     <AnimatedSection className="border-t border-border bg-gradient-to-b from-secondary/40 to-background py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
         <FadeIn>
           <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-            Ready to launch?
+            Ready to launch.
           </h2>
         </FadeIn>
         <FadeIn delay={0.1}>
@@ -509,7 +488,7 @@ function CTASection() {
         </FadeIn>
         <FadeIn delay={0.2}>
           <div className="mt-8 flex justify-center">
-            <Button size="lg" asChild>
+            <Button size="lg" className="rounded-full" asChild>
               <Link href="/signup">
                 Get Started Free
                 <ArrowRight className="size-4" />
