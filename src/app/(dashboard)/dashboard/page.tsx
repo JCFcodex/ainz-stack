@@ -54,7 +54,7 @@ export default function DashboardPage() {
       {/* Header */}
       <FadeIn>
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-semibold tracking-tighter">Dashboard</h1>
           <p className="text-sm text-muted-foreground">
             Welcome back! Here&apos;s your overview.
           </p>
