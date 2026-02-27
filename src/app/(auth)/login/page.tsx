@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <Card className="shadow-sm">
+    <Card className="rounded-2xl shadow-[0_2px_20px_-4px_rgba(0,0,0,0.08)]">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Welcome back</CardTitle>
         <CardDescription>Log in to your account</CardDescription>

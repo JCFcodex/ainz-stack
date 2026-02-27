@@ -15,7 +15,7 @@ export default function AuthLayout({
       <FadeIn className="w-full max-w-sm">{children}</FadeIn>
       <p className="mt-6 text-xs text-muted-foreground">
         <Link href="/" className="transition-colors hover:text-foreground">
-          {"<- Back to home"}
+          {"← Back to home"}
         </Link>
       </p>
     </div>
