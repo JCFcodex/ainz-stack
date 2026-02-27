@@ -54,7 +54,7 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 md:shadow-[1px_0_3px_rgba(0,0,0,0.04)]",
+        "flex h-screen flex-col bg-sidebar transition-all duration-300 md:shadow-[1px_0_3px_rgba(0,0,0,0.04)]",
         isCollapsed ? "w-16" : "w-56",
       )}
     >
@@ -94,7 +94,7 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
               key={link.href}
               href={link.href}
               className={cn(
-                "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm font-medium transition-colors",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold ring-1 ring-sidebar-border"
                   : "text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
