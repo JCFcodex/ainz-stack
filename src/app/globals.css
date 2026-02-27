@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* ─── AinzStack Design System ─── */
 /* Monochrome Apple-inspired palette: White(70%) / Gray(20%) / Black(10%) */
@@ -121,13 +121,22 @@
     box-sizing: border-box;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings:
-      'rlig' 1,
-      'calt' 1;
+      "rlig" 1,
+      "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-foreground);
+    color: var(--color-background);
   }
 
   h1,
