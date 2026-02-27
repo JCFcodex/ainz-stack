@@ -1,18 +1,19 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  Shield,
-  CreditCard,
-  Mail,
-  Palette,
-  Zap,
-  Code2,
   Check,
-  Sparkles,
+  Code2,
+  CreditCard,
   Layers,
+  Mail,
   MousePointerClick,
+  Palette,
+  Shield,
+  Sparkles,
   Type,
+  Zap,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,19 +23,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
+  AnimatedSection,
   FadeIn,
   StaggerChildren,
   StaggerItem,
-  AnimatedSection,
   TypeWriter,
 } from "@/components/motion";
 
-/* ─────────────────── Hero ─────────────────── */
 function HeroSection() {
   return (
     <section className="relative overflow-hidden">
@@ -43,7 +42,7 @@ function HeroSection() {
           <FadeIn delay={0}>
             <Badge
               variant="secondary"
-              className="mb-4 gap-1 border border-border/50 bg-secondary/50 backdrop-blur-sm"
+              className="mb-4 gap-1 border border-border/50 bg-secondary/50 px-2 py-0 text-[10px] uppercase tracking-wider backdrop-blur-sm"
             >
               <Sparkles className="size-3" />
               Save 220+ hours of dev time
@@ -51,33 +50,30 @@ function HeroSection() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <h1 className="max-w-3xl text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-              Launch your SaaS
+            <h1 className="max-w-3xl text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+              Launch your SaaS.
               <br />
-              <span className="text-muted-foreground">in days, not months</span>
+              <span className="text-muted-foreground/80">in days, not months.</span>
             </h1>
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <p className="mt-5 max-w-xl text-sm text-muted-foreground sm:text-base lg:text-lg">
+            <p className="mt-5 max-w-xl text-sm text-muted-foreground/80 sm:text-base lg:text-lg">
               Production-ready Next.js 16 boilerplate with authentication,
-              payments, and email — pre-built for indie devs and startups.
+              payments, and email, pre-built for indie devs and startups.
             </p>
           </FadeIn>
 
           <FadeIn delay={0.3}>
             <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-              <Button size="lg" asChild>
+              <Button size="lg" className="rounded-full" asChild>
                 <Link href="/signup">
                   Get Started Free
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" asChild>
-                <Link
-                  href="https://github.com/JCFcodex/ainz-stack"
-                  target="_blank"
-                >
+              <Button variant="outline" size="lg" className="rounded-full" asChild>
+                <Link href="https://github.com/JCFcodex/ainz-stack" target="_blank">
                   <Code2 className="size-4" />
                   View on GitHub
                 </Link>
@@ -87,21 +83,18 @@ function HeroSection() {
 
           <FadeIn delay={0.4}>
             <p className="mt-4 text-xs text-muted-foreground">
-              Free &amp; open source · MIT License · No credit card required
+              Free and open source - MIT License - No credit card required
             </p>
           </FadeIn>
         </div>
 
-        {/* Hero Visual — Animated Terminal */}
         <FadeIn delay={0.5} className="mx-auto mt-10 max-w-lg sm:mt-14">
-          <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
+          <div className="rounded-2xl border border-border/50 bg-card p-5 shadow-[0_2px_20px_-4px_rgba(0,0,0,0.08)]">
             <div className="flex items-center gap-1.5 pb-3">
               <div className="size-2.5 rounded-full bg-red-400/80" />
               <div className="size-2.5 rounded-full bg-yellow-400/80" />
               <div className="size-2.5 rounded-full bg-green-400/80" />
-              <span className="ml-2 text-xs text-muted-foreground">
-                terminal
-              </span>
+              <span className="ml-2 text-xs text-muted-foreground">terminal</span>
             </div>
             <TypeWriter
               className="text-xs leading-relaxed sm:text-sm"
@@ -111,19 +104,19 @@ function HeroSection() {
                   className: "text-foreground font-medium",
                 },
                 {
-                  text: "✓ Project created",
+                  text: "success Project created",
                   className: "text-muted-foreground",
                 },
                 {
-                  text: "✓ Dependencies installed",
+                  text: "success Dependencies installed",
                   className: "text-muted-foreground",
                 },
                 {
-                  text: "✓ Auth configured",
+                  text: "success Auth configured",
                   className: "text-muted-foreground",
                 },
                 {
-                  text: "✓ Payments ready",
+                  text: "success Payments ready",
                   className: "text-muted-foreground",
                 },
                 { text: "", className: "text-transparent", delay: 5 },
@@ -133,7 +126,7 @@ function HeroSection() {
                   delay: 6,
                 },
                 {
-                  text: "▲ Ready on http://localhost:3000",
+                  text: "Ready on http://localhost:3000",
                   className: "text-muted-foreground",
                   delay: 7,
                 },
