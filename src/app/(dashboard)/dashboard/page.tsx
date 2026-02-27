@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { StaggerChildren, StaggerItem } from "@/components/motion";
+import { FadeIn, StaggerChildren, StaggerItem } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -52,12 +52,14 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          Welcome back! Here&apos;s your overview.
-        </p>
-      </div>
+      <FadeIn>
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+          <p className="text-sm text-muted-foreground">
+            Welcome back! Here&apos;s your overview.
+          </p>
+        </div>
+      </FadeIn>
 
       {/* Stats Grid */}
       <StaggerChildren className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -70,7 +72,7 @@ export default function DashboardPage() {
                     <p className="text-xs text-muted-foreground">{stat.label}</p>
                     <p className="mt-1 text-xl font-semibold">{stat.value}</p>
                   </div>
-                  <div className="flex size-9 items-center justify-center rounded-lg bg-secondary">
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-secondary to-background">
                     <stat.icon className="size-4 text-foreground" />
                   </div>
                 </div>
@@ -96,7 +98,7 @@ export default function DashboardPage() {
           <StaggerChildren className="space-y-3" staggerDelay={0.06}>
             {recentActivity.map((item) => (
               <StaggerItem key={`${item.user}-${item.time}`}>
-                <div className="flex items-center justify-between rounded-lg border border-border p-3">
+                <div className="flex cursor-default items-center justify-between rounded-lg border border-border p-3 transition-colors hover:bg-secondary/50">
                   <div className="flex items-center gap-3">
                     <div className="flex size-8 items-center justify-center rounded-full bg-secondary text-xs font-medium">
                       {item.user
