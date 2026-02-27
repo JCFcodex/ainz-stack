@@ -110,11 +110,8 @@ export function SignupForm() {
             placeholder="Jane Doe"
             autoComplete="name"
             {...register("name")}
-            error={!!errors.name}
+            error={errors.name?.message}
           />
-          {errors.name && (
-            <p className="text-xs text-destructive">{errors.name.message}</p>
-          )}
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="signup-email">Email</Label>
@@ -124,11 +121,8 @@ export function SignupForm() {
             placeholder="you@example.com"
             autoComplete="email"
             {...register("email")}
-            error={!!errors.email}
+            error={errors.email?.message}
           />
-          {errors.email && (
-            <p className="text-xs text-destructive">{errors.email.message}</p>
-          )}
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="signup-password">Password</Label>
@@ -138,13 +132,8 @@ export function SignupForm() {
             placeholder="••••••••"
             autoComplete="new-password"
             {...register("password")}
-            error={!!errors.password}
+            error={errors.password?.message}
           />
-          {errors.password && (
-            <p className="text-xs text-destructive">
-              {errors.password.message}
-            </p>
-          )}
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting ? (

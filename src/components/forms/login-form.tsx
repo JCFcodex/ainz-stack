@@ -106,11 +106,8 @@ export function LoginForm() {
             placeholder="you@example.com"
             autoComplete="email"
             {...register("email")}
-            error={!!errors.email}
+            error={errors.email?.message}
           />
-          {errors.email && (
-            <p className="text-xs text-destructive">{errors.email.message}</p>
-          )}
         </div>
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
@@ -128,13 +125,8 @@ export function LoginForm() {
             placeholder="••••••••"
             autoComplete="current-password"
             {...register("password")}
-            error={!!errors.password}
+            error={errors.password?.message}
           />
-          {errors.password && (
-            <p className="text-xs text-destructive">
-              {errors.password.message}
-            </p>
-          )}
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting ? (

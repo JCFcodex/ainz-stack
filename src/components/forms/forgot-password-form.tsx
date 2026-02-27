@@ -77,11 +77,8 @@ export function ForgotPasswordForm() {
             placeholder="you@example.com"
             autoComplete="email"
             {...register("email")}
-            error={!!errors.email}
+            error={errors.email?.message}
           />
-          {errors.email && (
-            <p className="text-xs text-destructive">{errors.email.message}</p>
-          )}
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting ? (
