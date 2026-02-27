@@ -78,8 +78,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} AinzStack by JCFcodex. All rights
-            reserved.
+            © 2026 AinzStack by JCFcodex. All rights reserved.
           </p>
           <Link
             href="https://github.com/JCFcodex/ainz-stack"
