@@ -21,7 +21,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/60 backdrop-blur-xl backdrop-saturate-[1.8]">
-      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Logo size="md" />
 
@@ -33,10 +33,10 @@ export function Navbar() {
               href={link.href}
               aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors hover:bg-accent",
+                "rounded-full px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] transition-colors",
                 pathname === link.href
-                  ? "text-foreground"
-                  : "text-muted-foreground",
+                  ? "rounded-full bg-foreground text-background"
+                  : "rounded-full border border-border text-muted-foreground hover:bg-secondary",
               )}
             >
               {link.label}
@@ -46,10 +46,10 @@ export function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden items-center gap-2 md:flex">
-          <Button variant="ghost" size="sm" asChild>
+          <Button variant="ghost" size="sm" className="rounded-full" asChild>
             <Link href="/login">Log in</Link>
           </Button>
-          <Button size="sm" asChild>
+          <Button size="sm" className="rounded-full" asChild>
             <Link href="/signup">Get Started</Link>
           </Button>
         </div>
