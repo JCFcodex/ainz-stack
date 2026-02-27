@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <Card>
+    <Card className="shadow-sm">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Create your account</CardTitle>
         <CardDescription>Start building your SaaS today</CardDescription>
