@@ -41,14 +41,17 @@ function HeroSection() {
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-20 sm:px-6 sm:pb-24 sm:pt-28">
         <div className="flex flex-col items-center text-center">
           <FadeIn delay={0}>
-            <Badge variant="secondary" className="mb-4 gap-1">
+            <Badge
+              variant="secondary"
+              className="mb-4 gap-1 border border-border/50 bg-secondary/50 backdrop-blur-sm"
+            >
               <Sparkles className="size-3" />
               Save 220+ hours of dev time
             </Badge>
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <h1 className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+            <h1 className="max-w-3xl text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
               Launch your SaaS
               <br />
               <span className="text-muted-foreground">in days, not months</span>
@@ -187,7 +190,7 @@ function FeaturesSection() {
   return (
     <AnimatedSection
       id="features"
-      className="border-t border-border py-16 sm:py-24"
+      className="border-t border-border py-20 sm:py-28"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
@@ -217,7 +220,7 @@ function FeaturesSection() {
             <StaggerItem key={feature.title}>
               <Card className="group border-border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
                 <CardHeader className="pb-3">
-                  <div className="mb-2 flex size-9 items-center justify-center rounded-lg bg-secondary transition-colors group-hover:bg-foreground/5">
+                  <div className="mb-2 flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-secondary to-secondary/60 transition-colors group-hover:bg-foreground/5">
                     <feature.icon className="size-4 text-foreground" />
                   </div>
                   <CardTitle className="text-base">{feature.title}</CardTitle>
@@ -241,7 +244,7 @@ function PlaygroundSection() {
   return (
     <AnimatedSection
       id="playground"
-      className="border-t border-border py-16 sm:py-24"
+      className="border-t border-border py-20 sm:py-28"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
@@ -447,7 +450,7 @@ function PricingSection() {
   return (
     <AnimatedSection
       id="pricing"
-      className="border-t border-border py-16 sm:py-24"
+      className="border-t border-border py-20 sm:py-28"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
@@ -477,7 +480,7 @@ function PricingSection() {
               <Card
                 className={`transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
                   plan.highlight
-                    ? "border-foreground shadow-md"
+                    ? "border-foreground shadow-[0_0_30px_-5px_rgba(0,0,0,0.1)]"
                     : "border-border"
                 }`}
               >
@@ -527,6 +530,36 @@ function PricingSection() {
 }
 
 /* ─────────────────── Page ─────────────────── */
+function CTASection() {
+  return (
+    <AnimatedSection className="border-t border-border bg-gradient-to-b from-secondary/40 to-background py-20 sm:py-28">
+      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+        <FadeIn>
+          <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+            Ready to launch?
+          </h2>
+        </FadeIn>
+        <FadeIn delay={0.1}>
+          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+            Start building your SaaS today. Free, open source, and production
+            ready from day one.
+          </p>
+        </FadeIn>
+        <FadeIn delay={0.2}>
+          <div className="mt-8 flex justify-center">
+            <Button size="lg" asChild>
+              <Link href="/signup">
+                Get Started Free
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
+        </FadeIn>
+      </div>
+    </AnimatedSection>
+  );
+}
+
 export default function HomePage() {
   return (
     <>
@@ -534,6 +567,7 @@ export default function HomePage() {
       <FeaturesSection />
       <PlaygroundSection />
       <PricingSection />
+      <CTASection />
     </>
   );
 }
