@@ -74,21 +74,21 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground">
+            <h4 className="mb-3 text-xs font-semibold tracking-normal text-foreground">
               Product
             </h4>
             <FooterLinks links={productLinks} />
           </div>
 
           <div>
-            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground">
+            <h4 className="mb-3 text-xs font-semibold tracking-normal text-foreground">
               Resources
             </h4>
             <FooterLinks links={resourceLinks} />
           </div>
 
           <div>
-            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-foreground">
+            <h4 className="mb-3 text-xs font-semibold tracking-normal text-foreground">
               Legal
             </h4>
             <FooterLinks links={legalLinks} />
@@ -97,7 +97,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            (c) 2026 AinzStack by JCFcodex. All rights reserved.
+            © 2026 AinzStack by JCFcodex. All rights reserved.
           </p>
           <Link
             href="https://github.com/JCFcodex/ainz-stack"
