@@ -1,64 +1,62 @@
 import { z } from "zod";
 
-/**
- * Server-side environment variables schema.
- * These are validated at build/start time and will crash
- * the app immediately if missing or invalid.
- */
 const serverSchema = z.object({
-  NODE_ENV: z
-    .enum(["development", "production", "test"])
-    .default("development"),
-  // Supabase
+  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
-  // Stripe
   STRIPE_SECRET_KEY: z.string().min(1).optional(),
   STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
+  STRIPE_PRO_PRICE_ID: z.string().min(1).optional(),
+  STRIPE_ENTERPRISE_PRICE_ID: z.string().min(1).optional(),
+  RESEND_API_KEY: z.string().min(1).optional(),
+  RESEND_FROM_EMAIL: z.string().min(1).optional(),
 });
 
-/**
- * Client-side environment variables schema.
- * Must be prefixed with NEXT_PUBLIC_ to be exposed to the browser.
- */
 const clientSchema = z.object({
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
   NEXT_PUBLIC_APP_NAME: z.string().default("AinzStack"),
-  // Supabase
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
-  // Stripe
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1).optional(),
 });
 
-/**
- * Validate and export typed environment variables.
- *
- * Usage:
- * ```ts
- * import { env } from "@/lib/env";
- * console.log(env.NEXT_PUBLIC_APP_NAME);
- * ```
- */
 const merged = serverSchema.merge(clientSchema);
 
 export type Env = z.infer<typeof merged>;
 
 function getEnv(): Env {
-  const parsed = merged.safeParse(process.env);
+  const defaults: Partial<Env> = {
+    NODE_ENV: "development",
+    NEXT_PUBLIC_APP_URL: "http://localhost:3000",
+    NEXT_PUBLIC_APP_NAME: "AinzStack",
+  };
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const parsed = merged.safeParse({
+    ...defaults,
+    ...process.env,
+  });
 
   if (!parsed.success) {
     console.error(
-      "❌ Invalid environment variables:",
+      "Invalid environment variables:",
       parsed.error.flatten().fieldErrors,
     );
 
-    // In production, crash immediately. In dev, warn but continue.
-    if (process.env.NODE_ENV === "production") {
+    if (isProduction) {
       throw new Error("Invalid environment variables");
     }
   }
 
-  return (parsed.data ?? process.env) as Env;
+  return (parsed.data ?? defaults) as Env;
 }
 
 export const env = getEnv();
+
+export function getRequiredEnv<K extends keyof Env>(key: K): NonNullable<Env[K]> {
+  const value = env[key];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${String(key)}`);
+  }
+
+  return value as NonNullable<Env[K]>;
+}

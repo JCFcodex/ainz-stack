@@ -1,11 +1,5 @@
-/**
- * Shared Type Definitions
- *
- * Central place for app-wide types used across
- * components, actions, and API routes.
- */
+import type { Database } from "@/types/supabase";
 
-/* ─── API Response ─── */
 export type ApiResponse<T = unknown> = {
   success: boolean;
   data?: T;
@@ -13,7 +7,6 @@ export type ApiResponse<T = unknown> = {
   message?: string;
 };
 
-/* ─── Pagination ─── */
 export type PaginatedResponse<T> = {
   data: T[];
   total: number;
@@ -29,10 +22,16 @@ export type PaginationParams = {
   sortOrder?: "asc" | "desc";
 };
 
-/* ─── User ─── */
+export type UserRole = Database["public"]["Enums"]["user_role"];
+export type SubscriptionPlan = Database["public"]["Enums"]["subscription_plan"];
+export type SubscriptionStatus = Database["public"]["Enums"]["subscription_status"];
+export type InvoiceStatus = Database["public"]["Enums"]["invoice_status"];
+
 export type UserProfile = {
   id: string;
   email: string;
+  firstName: string | null;
+  lastName: string | null;
   fullName: string | null;
   avatarUrl: string | null;
   role: UserRole;
@@ -41,13 +40,7 @@ export type UserProfile = {
   updatedAt: string;
 };
 
-export type UserRole = "user" | "admin" | "super_admin";
-
-/* ─── Subscription ─── */
-export type SubscriptionPlan = "free" | "pro" | "enterprise";
-
 export type Subscription = {
-  id: string;
   userId: string;
   plan: SubscriptionPlan;
   status: SubscriptionStatus;
@@ -55,35 +48,27 @@ export type Subscription = {
   stripeSubscriptionId: string | null;
   currentPeriodStart: string | null;
   currentPeriodEnd: string | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type SubscriptionStatus =
-  | "active"
-  | "canceled"
-  | "past_due"
-  | "trialing"
-  | "incomplete";
-
-/* ─── Invoice ─── */
 export type Invoice = {
   id: string;
+  userId: string;
+  amountCents: number;
+  currency: string;
+  status: InvoiceStatus;
   date: string;
-  amount: string;
-  status: "paid" | "pending" | "failed";
-  receiptUrl?: string;
+  receiptUrl: string | null;
 };
 
-/* ─── Notification ─── */
-export type Notification = {
-  id: string;
-  type: "info" | "success" | "warning" | "error";
-  title: string;
-  message: string;
-  read: boolean;
-  createdAt: string;
+export type NotificationPreferences = {
+  marketingEmails: boolean;
+  paymentAlerts: boolean;
+  securityAlerts: boolean;
+  updatedAt: string;
 };
 
-/* ─── Navigation ─── */
 export type NavItem = {
   label: string;
   href: string;
