@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { StaggerChildren, StaggerItem } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -59,29 +60,31 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <StaggerChildren className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
-                  <p className="mt-1 text-xl font-semibold">{stat.value}</p>
+          <StaggerItem key={stat.label}>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-muted-foreground">{stat.label}</p>
+                    <p className="mt-1 text-xl font-semibold">{stat.value}</p>
+                  </div>
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-secondary">
+                    <stat.icon className="size-4 text-foreground" />
+                  </div>
                 </div>
-                <div className="flex size-9 items-center justify-center rounded-lg bg-secondary">
-                  <stat.icon className="size-4 text-foreground" />
-                </div>
-              </div>
-              <p className="mt-2 text-xs text-muted-foreground">
-                <span className="font-medium text-foreground">
-                  {stat.change}
-                </span>{" "}
-                from last month
-              </p>
-            </CardContent>
-          </Card>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  <span className="font-medium text-foreground">
+                    {stat.change}
+                  </span>{" "}
+                  from last month
+                </p>
+              </CardContent>
+            </Card>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerChildren>
 
       {/* Recent Activity */}
       <Card>
@@ -90,30 +93,29 @@ export default function DashboardPage() {
           <CardDescription>Latest user actions in your app.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {recentActivity.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between rounded-lg border border-border p-3"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex size-8 items-center justify-center rounded-full bg-secondary text-xs font-medium">
-                    {item.user
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+          <StaggerChildren className="space-y-3" staggerDelay={0.06}>
+            {recentActivity.map((item) => (
+              <StaggerItem key={`${item.user}-${item.time}`}>
+                <div className="flex items-center justify-between rounded-lg border border-border p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-8 items-center justify-center rounded-full bg-secondary text-xs font-medium">
+                      {item.user
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">{item.user}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.action}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium">{item.user}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {item.action}
-                    </p>
-                  </div>
+                  <p className="text-xs text-muted-foreground">{item.time}</p>
                 </div>
-                <p className="text-xs text-muted-foreground">{item.time}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerChildren>
         </CardContent>
       </Card>
     </div>
