@@ -7,8 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-build:
-    name: Lint & Build
+  quality:
+    name: Quality Checks
     runs-on: ubuntu-latest
 
     steps:
@@ -35,5 +35,14 @@ jobs:
       - name: Type check
         run: pnpm tsc --noEmit
 
+      - name: Unit tests
+        run: pnpm test
+
       - name: Build
         run: pnpm build
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: E2E smoke
+        run: pnpm test:e2e:smoke
