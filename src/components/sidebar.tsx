@@ -41,33 +41,46 @@ const sidebarLinks = [
   },
 ];
 
-export function Sidebar() {
+type SidebarProps = {
+  onNavigate?: () => void;
+  isMobile?: boolean;
+};
+
+export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const isCollapsed = isMobile ? false : collapsed;
 
   return (
     <aside
       className={cn(
         "flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300",
-        collapsed ? "w-16" : "w-56",
+        isCollapsed ? "w-16" : "w-56",
       )}
     >
       {/* Header */}
-      <div className="flex h-14 items-center justify-between px-3">
-        {!collapsed && <Logo size="sm" />}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-8 text-sidebar-muted"
-          onClick={() => setCollapsed(!collapsed)}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? (
-            <ChevronRight className="size-4" />
-          ) : (
-            <ChevronLeft className="size-4" />
-          )}
-        </Button>
+      <div
+        className={cn(
+          "flex h-14 items-center px-3",
+          isMobile ? "justify-start" : "justify-between",
+        )}
+      >
+        {!isCollapsed && <Logo size="sm" />}
+        {!isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-sidebar-muted"
+            onClick={() => setCollapsed(!collapsed)}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? (
+              <ChevronRight className="size-4" />
+            ) : (
+              <ChevronLeft className="size-4" />
+            )}
+          </Button>
+        )}
       </div>
 
       <Separator />
@@ -83,14 +96,15 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold ring-1 ring-sidebar-border"
                   : "text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                collapsed && "justify-center px-0",
+                isCollapsed && "justify-center px-0",
               )}
-              title={collapsed ? link.label : undefined}
+              title={isCollapsed ? link.label : undefined}
+              onClick={() => onNavigate?.()}
             >
               <link.icon className="size-4 shrink-0" />
-              {!collapsed && <span>{link.label}</span>}
+              {!isCollapsed && <span>{link.label}</span>}
             </Link>
           );
         })}
@@ -105,11 +119,11 @@ export function Sidebar() {
             type="submit"
             className={cn(
               "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-              collapsed && "justify-center px-0",
+              isCollapsed && "justify-center px-0",
             )}
           >
             <LogOut className="size-4 shrink-0" />
-            {!collapsed && <span>Log out</span>}
+            {!isCollapsed && <span>Log out</span>}
           </button>
         </form>
       </div>

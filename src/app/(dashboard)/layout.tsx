@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Sidebar } from "@/components/sidebar";
 import { Logo } from "@/components/logo";
@@ -12,6 +13,24 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  const pageTitles: Record<string, string> = {
+    "/dashboard": "Dashboard",
+    "/dashboard/profile": "Profile",
+    "/dashboard/billing": "Billing",
+    "/dashboard/settings": "Settings",
+  };
+
+  const pageTitle = pageTitles[pathname] ?? "Dashboard";
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -41,7 +60,7 @@ export default function DashboardLayout({
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="relative z-10 h-full w-56"
             >
-              <Sidebar />
+              <Sidebar isMobile onNavigate={() => setMobileOpen(false)} />
             </motion.div>
           </div>
         )}
@@ -63,7 +82,10 @@ export default function DashboardLayout({
               <Menu className="size-5" />
             )}
           </button>
-          <Logo size="sm" />
+          <div className="flex items-center gap-2">
+            <Logo size="sm" />
+            <span className="text-sm font-semibold">{pageTitle}</span>
+          </div>
         </header>
 
         {/* Page Content */}
