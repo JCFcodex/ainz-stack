@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   title: "Profile",
 };
 
-function getInitials(firstName: string | null, lastName: string | null, email: string | null) {
+function getInitials(
+  firstName: string | null,
+  lastName: string | null,
+  email: string | null,
+) {
   const first = firstName?.trim().charAt(0) ?? "";
   const last = lastName?.trim().charAt(0) ?? "";
   const combined = `${first}${last}`.toUpperCase();
@@ -67,7 +71,9 @@ export default async function ProfilePage() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Personal Info</CardTitle>
-          <CardDescription>Update your name and profile details.</CardDescription>
+          <CardDescription>
+            Update your name and profile details.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
@@ -97,7 +103,10 @@ export default async function ProfilePage() {
             </p>
           </div>
 
-          <ProfileForm defaultFirstName={firstName} defaultLastName={lastName} />
+          <ProfileForm
+            defaultFirstName={firstName}
+            defaultLastName={lastName}
+          />
         </CardContent>
       </Card>
 
@@ -113,4 +122,3 @@ export default async function ProfilePage() {
     </div>
   );
 }
-

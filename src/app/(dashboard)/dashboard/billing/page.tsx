@@ -116,7 +116,9 @@ export default async function BillingPage() {
     user
       ? supabase
           .from("invoices")
-          .select("id,stripe_invoice_id,amount_cents,currency,status,created_at,hosted_invoice_url")
+          .select(
+            "id,stripe_invoice_id,amount_cents,currency,status,created_at,hosted_invoice_url",
+          )
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
           .limit(10)
@@ -252,7 +254,9 @@ export default async function BillingPage() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Payment Method</CardTitle>
-          <CardDescription>Update cards and invoices in Stripe.</CardDescription>
+          <CardDescription>
+            Update cards and invoices in Stripe.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-3 rounded-lg border border-border p-3">
@@ -274,7 +278,12 @@ export default async function BillingPage() {
         {subscription?.stripe_customer_id && (
           <div className="px-6 pb-6">
             <form action={billingPortalAction}>
-              <Button size="sm" variant="outline" type="submit" className="gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                type="submit"
+                className="gap-2"
+              >
                 <ExternalLink className="size-3.5" />
                 Open Billing Portal
               </Button>
@@ -305,11 +314,14 @@ export default async function BillingPage() {
                       {invoice.stripe_invoice_id ?? invoice.id.slice(0, 8)}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(invoice.created_at).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
+                      {new Date(invoice.created_at).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        },
+                      )}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -329,4 +341,3 @@ export default async function BillingPage() {
     </div>
   );
 }
-

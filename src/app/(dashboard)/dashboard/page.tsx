@@ -74,7 +74,9 @@ export default function DashboardPage() {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-muted-foreground">{stat.label}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {stat.label}
+                    </p>
                     <p className="mt-1 text-xl font-semibold">{stat.value}</p>
                   </div>
                   <div className="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-secondary to-background">

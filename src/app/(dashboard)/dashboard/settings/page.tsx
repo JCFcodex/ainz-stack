@@ -53,7 +53,9 @@ export default async function SettingsPage() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base">General</CardTitle>
-          <CardDescription>Core account and app-level settings.</CardDescription>
+          <CardDescription>
+            Core account and app-level settings.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
@@ -67,11 +69,19 @@ export default async function SettingsPage() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="app-name">App Name</Label>
-            <Input id="app-name" defaultValue={env.NEXT_PUBLIC_APP_NAME} disabled />
+            <Input
+              id="app-name"
+              defaultValue={env.NEXT_PUBLIC_APP_NAME}
+              disabled
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="app-url">App URL</Label>
-            <Input id="app-url" defaultValue={env.NEXT_PUBLIC_APP_URL} disabled />
+            <Input
+              id="app-url"
+              defaultValue={env.NEXT_PUBLIC_APP_URL}
+              disabled
+            />
           </div>
         </CardContent>
       </Card>
@@ -83,9 +93,15 @@ export default async function SettingsPage() {
         </CardHeader>
         <CardContent>
           <NotificationPreferencesForm
-            defaultMarketingEmails={notificationPreferences?.marketing_emails ?? true}
-            defaultPaymentAlerts={notificationPreferences?.payment_alerts ?? true}
-            defaultSecurityAlerts={notificationPreferences?.security_alerts ?? true}
+            defaultMarketingEmails={
+              notificationPreferences?.marketing_emails ?? true
+            }
+            defaultPaymentAlerts={
+              notificationPreferences?.payment_alerts ?? true
+            }
+            defaultSecurityAlerts={
+              notificationPreferences?.security_alerts ?? true
+            }
           />
         </CardContent>
       </Card>
@@ -128,4 +144,3 @@ export default async function SettingsPage() {
     </div>
   );
 }
-
