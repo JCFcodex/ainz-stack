@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Check, CreditCard, ExternalLink } from "lucide-react";
+import { Check, CreditCard, ExternalLink, Home } from "lucide-react";
 import {
   createBillingPortalSession,
   createCheckoutSession,
@@ -129,6 +129,11 @@ export default async function BillingPage() {
   return (
     <div className="space-y-6">
       <div>
+        <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Home className="size-4" />
+          <span>/</span>
+          <span className="font-medium text-foreground">Billing</span>
+        </div>
         <h1 className="text-2xl font-semibold tracking-tighter">Billing</h1>
         <p className="text-sm text-muted-foreground">
           Manage your plan and payment method.

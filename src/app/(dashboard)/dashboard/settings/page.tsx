@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Home } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,6 +39,11 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
+        <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Home className="size-4" />
+          <span>/</span>
+          <span className="font-medium text-foreground">Settings</span>
+        </div>
         <h1 className="text-2xl font-semibold tracking-tighter">Settings</h1>
         <p className="text-sm text-muted-foreground">
           Manage your app preferences.

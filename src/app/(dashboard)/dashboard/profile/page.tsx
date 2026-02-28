@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import {
-  ChangePasswordForm,
-  ProfileForm,
-} from "@/components/forms";
+import { Home } from "lucide-react";
+import { ChangePasswordForm, ProfileForm } from "@/components/forms";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -55,6 +53,11 @@ export default async function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
+        <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Home className="size-4" />
+          <span>/</span>
+          <span className="font-medium text-foreground">Profile</span>
+        </div>
         <h1 className="text-2xl font-semibold tracking-tighter">Profile</h1>
         <p className="text-sm text-muted-foreground">
           Manage your personal information.

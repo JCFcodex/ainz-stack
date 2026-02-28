@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Users, DollarSign, Activity, TrendingUp } from "lucide-react";
+import { Users, DollarSign, Activity, TrendingUp, Home } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -54,6 +54,11 @@ export default function DashboardPage() {
       {/* Header */}
       <FadeIn>
         <div>
+          <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+            <Home className="size-4" />
+            <span>/</span>
+            <span className="font-medium text-foreground">Overview</span>
+          </div>
           <h1 className="text-2xl font-semibold tracking-tighter">Dashboard</h1>
           <p className="text-sm text-muted-foreground">
             Welcome back! Here&apos;s your overview.
