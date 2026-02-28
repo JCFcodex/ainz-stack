@@ -37,12 +37,12 @@ import {
 function HeroSection() {
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto max-w-6xl px-4 pb-16 pt-20 sm:px-6 sm:pb-24 sm:pt-28">
+      <div className="mx-auto max-w-6xl px-4 pb-12 pt-14 sm:px-6 sm:pb-16 sm:pt-20">
         <div className="flex flex-col items-center text-center">
           <FadeIn delay={0}>
             <Badge
               variant="secondary"
-              className="mb-4 gap-1 border border-border/50 bg-secondary/50 px-2 py-0 text-[10px] uppercase tracking-wider backdrop-blur-sm"
+              className="mb-4 gap-1 border border-border/50 bg-secondary/50 px-2 py-0 text-xs uppercase tracking-wider backdrop-blur-sm"
             >
               <Sparkles className="size-3" />
               Save 220+ hours of dev time
@@ -50,10 +50,12 @@ function HeroSection() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <h1 className="max-w-3xl text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="max-w-3xl text-3xl font-extrabold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
               Launch your SaaS.
               <br />
-              <span className="text-muted-foreground/80">in days, not months.</span>
+              <span className="text-muted-foreground/80">
+                in days, not months.
+              </span>
             </h1>
           </FadeIn>
 
@@ -72,8 +74,16 @@ function HeroSection() {
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="rounded-full" asChild>
-                <Link href="https://github.com/JCFcodex/ainz-stack" target="_blank">
+              <Button
+                variant="outline"
+                size="lg"
+                className="rounded-full"
+                asChild
+              >
+                <Link
+                  href="https://github.com/JCFcodex/ainz-stack"
+                  target="_blank"
+                >
                   <Code2 className="size-4" />
                   View on GitHub
                 </Link>
@@ -94,7 +104,9 @@ function HeroSection() {
               <div className="size-2.5 rounded-full bg-red-400/80" />
               <div className="size-2.5 rounded-full bg-yellow-400/80" />
               <div className="size-2.5 rounded-full bg-green-400/80" />
-              <span className="ml-2 text-xs text-muted-foreground">terminal</span>
+              <span className="ml-2 text-xs text-muted-foreground">
+                terminal
+              </span>
             </div>
             <TypeWriter
               className="text-xs leading-relaxed sm:text-sm"
@@ -180,7 +192,10 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <AnimatedSection id="features" className="border-t border-border py-20 sm:py-28">
+    <AnimatedSection
+      id="features"
+      className="border-t border-border py-12 sm:py-16"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <FadeIn delay={0.1}>
@@ -190,20 +205,21 @@ function FeaturesSection() {
           </FadeIn>
           <FadeIn delay={0.15}>
             <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-              Pre-built features so you can focus on what makes your product unique.
+              Pre-built features so you can focus on what makes your product
+              unique.
             </p>
           </FadeIn>
         </div>
 
         <StaggerChildren
-          className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3"
           staggerDelay={0.08}
         >
           {features.map((feature) => (
             <StaggerItem key={feature.title}>
-              <Card className="group rounded-2xl border-transparent bg-secondary/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-md">
+              <Card className="group rounded-2xl border-transparent bg-secondary/20 transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-card hover:shadow-md">
                 <CardHeader className="pb-3">
-                  <div className="mb-2 flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-secondary to-secondary/60 transition-colors group-hover:bg-foreground/5">
+                  <div className="mb-1.5 flex size-9 items-center justify-center rounded-lg bg-linear-to-br from-secondary to-secondary/60 transition-colors group-hover:bg-foreground/5">
                     <feature.icon className="size-5 text-foreground" />
                   </div>
                   <CardTitle className="text-base">{feature.title}</CardTitle>
@@ -224,7 +240,10 @@ function FeaturesSection() {
 
 function PlaygroundSection() {
   return (
-    <AnimatedSection id="playground" className="border-t border-border py-20 sm:py-28">
+    <AnimatedSection
+      id="playground"
+      className="border-t border-border py-12 sm:py-16"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <FadeIn delay={0.1}>
@@ -241,7 +260,7 @@ function PlaygroundSection() {
         </div>
 
         <StaggerChildren
-          className="mt-10 grid gap-4 sm:mt-12 lg:grid-cols-2 lg:gap-6"
+          className="mt-8 grid gap-3 sm:mt-10 lg:grid-cols-2 lg:gap-4"
           staggerDelay={0.1}
         >
           <StaggerItem>
@@ -295,11 +314,19 @@ function PlaygroundSection() {
               <CardContent className="space-y-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="playground-email">Email</Label>
-                  <Input id="playground-email" type="email" placeholder="you@example.com" />
+                  <Input
+                    id="playground-email"
+                    type="email"
+                    placeholder="you@example.com"
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="playground-password">Password</Label>
-                  <Input id="playground-password" type="password" placeholder="********" />
+                  <Input
+                    id="playground-password"
+                    type="password"
+                    placeholder="********"
+                  />
                 </div>
                 <Button className="w-full" size="sm">
                   Submit
@@ -409,7 +436,10 @@ const plans = [
 
 function PricingSection() {
   return (
-    <AnimatedSection id="pricing" className="border-t border-border py-20 sm:py-28">
+    <AnimatedSection
+      id="pricing"
+      className="border-t border-border py-12 sm:py-16"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <FadeIn delay={0.1}>
@@ -425,32 +455,41 @@ function PricingSection() {
         </div>
 
         <StaggerChildren
-          className="mt-10 grid gap-4 sm:mt-12 sm:gap-6 md:grid-cols-3"
+          className="mt-8 grid gap-3 sm:mt-10 sm:gap-4 md:grid-cols-3"
           staggerDelay={0.1}
         >
           {plans.map((plan) => (
             <StaggerItem key={plan.name}>
               <Card
-                className={`rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+                className={`rounded-2xl transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lg ${
                   plan.highlight
                     ? "border-foreground bg-card shadow-[0_4px_30px_-6px_rgba(0,0,0,0.12)]"
                     : "border-transparent bg-secondary/20 hover:border-border hover:bg-card"
                 }`}
               >
                 <CardHeader>
-                  {plan.highlight && <Badge className="mb-2 w-fit">Most Popular</Badge>}
+                  {plan.highlight && (
+                    <Badge className="mb-2 w-fit">Most Popular</Badge>
+                  )}
                   <CardTitle className="text-lg">{plan.name}</CardTitle>
                   <CardDescription>{plan.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <span className="text-4xl font-extrabold tracking-tight">{plan.price}</span>
-                    <span className="ml-1 text-sm text-muted-foreground">{plan.period}</span>
+                    <span className="text-4xl font-extrabold tracking-tight">
+                      {plan.price}
+                    </span>
+                    <span className="ml-1 text-sm text-muted-foreground">
+                      {plan.period}
+                    </span>
                   </div>
                   <Separator />
                   <ul className="space-y-2">
                     {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-2 text-sm">
+                      <li
+                        key={feature}
+                        className="flex items-center gap-2 text-sm"
+                      >
                         <Check className="size-3.5 text-foreground" />
                         <span className="text-muted-foreground">{feature}</span>
                       </li>
@@ -458,7 +497,11 @@ function PricingSection() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" variant={plan.highlight ? "default" : "outline"} asChild>
+                  <Button
+                    className="w-full"
+                    variant={plan.highlight ? "default" : "outline"}
+                    asChild
+                  >
                     <Link href="/signup">{plan.cta}</Link>
                   </Button>
                 </CardFooter>
@@ -473,7 +516,7 @@ function PricingSection() {
 
 function CTASection() {
   return (
-    <AnimatedSection className="border-t border-border bg-gradient-to-b from-secondary/40 to-background py-20 sm:py-28">
+    <AnimatedSection className="border-t border-border bg-linear-to-b from-secondary/40 to-background py-12 sm:py-16">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
         <FadeIn>
           <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
