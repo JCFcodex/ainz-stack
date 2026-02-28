@@ -94,7 +94,10 @@ export default async function ProfilePage() {
             <Label htmlFor="profile-email">Email</Label>
             <Input
               id="profile-email"
+              name="email"
               type="email"
+              autoComplete="email"
+              spellCheck={false}
               defaultValue={email}
               disabled
             />

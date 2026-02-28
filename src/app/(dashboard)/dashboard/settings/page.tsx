@@ -62,8 +62,11 @@ export default async function SettingsPage() {
             <Label htmlFor="account-email">Account Email</Label>
             <Input
               id="account-email"
+              name="email"
               defaultValue={user?.email ?? ""}
               type="email"
+              autoComplete="email"
+              spellCheck={false}
               disabled
             />
           </div>
@@ -71,16 +74,18 @@ export default async function SettingsPage() {
             <Label htmlFor="app-name">App Name</Label>
             <Input
               id="app-name"
+              name="appName"
               defaultValue={env.NEXT_PUBLIC_APP_NAME}
-              disabled
+              readOnly
             />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="app-url">App URL</Label>
             <Input
               id="app-url"
+              name="appUrl"
               defaultValue={env.NEXT_PUBLIC_APP_URL}
-              disabled
+              readOnly
             />
           </div>
         </CardContent>
