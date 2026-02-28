@@ -2,6 +2,27 @@
   "name": "ainz-stack",
   "version": "0.1.0",
   "private": true,
+  "description": "Production-ready Next.js 16 boilerplate for indie developers and startup teams.",
+  "keywords": [
+    "nextjs",
+    "app-router",
+    "typescript",
+    "supabase",
+    "stripe",
+    "resend",
+    "tailwindcss",
+    "saas",
+    "boilerplate"
+  ],
+  "author": "JCFcodex",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JCFcodex/ainz-stack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JCFcodex/ainz-stack/issues"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
