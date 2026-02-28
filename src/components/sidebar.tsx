@@ -70,13 +70,13 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
     <aside
       className={cn(
         "flex h-screen flex-col bg-card border-r border-border transition-[width] duration-300",
-        isCollapsed ? "w-16" : "w-56",
+        isCollapsed ? "w-14" : "w-48",
       )}
     >
       {/* Header */}
       <div
         className={cn(
-          "flex h-14 items-center px-3",
+          "flex h-11 items-center px-2.5",
           isMobile ? "justify-start" : "justify-between",
         )}
       >
@@ -85,7 +85,7 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 text-sidebar-muted"
+            className="size-7 text-sidebar-muted"
             onClick={() => setCollapsed(!collapsed)}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
@@ -101,11 +101,11 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
       <Separator />
 
       {/* Nav */}
-      <nav className="flex-1 space-y-4 p-2 overflow-y-auto">
+      <nav className="flex-1 space-y-3 p-1.5 overflow-y-auto">
         {sidebarGroups.map((group) => (
           <div key={group.title} className="space-y-1">
             {!isCollapsed && (
-              <h4 className="px-2.5 py-1 text-[11px] font-semibold tracking-wider text-sidebar-muted uppercase">
+              <h4 className="px-2 py-0.5 text-[10px] font-semibold tracking-wider text-sidebar-muted uppercase">
                 {group.title}
               </h4>
             )}
@@ -116,7 +116,7 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm font-medium transition-colors",
+                    "flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium transition-colors",
                     isActive
                       ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold ring-1 ring-sidebar-border"
                       : "text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -125,7 +125,7 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
                   title={isCollapsed ? link.label : undefined}
                   onClick={() => onNavigate?.()}
                 >
-                  <link.icon className="size-4 shrink-0" />
+                  <link.icon className="size-3.5 shrink-0" />
                   {!isCollapsed && <span>{link.label}</span>}
                 </Link>
               );
@@ -137,16 +137,16 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
       <Separator />
 
       {/* Footer */}
-      <div className="p-2">
+      <div className="p-1.5">
         <form action={logout}>
           <button
             type="submit"
             className={cn(
-              "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+              "flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
               isCollapsed && "justify-center px-0",
             )}
           >
-            <LogOut className="size-4 shrink-0" />
+            <LogOut className="size-3.5 shrink-0" />
             {!isCollapsed && <span>Log out</span>}
           </button>
         </form>

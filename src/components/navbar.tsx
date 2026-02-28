@@ -21,7 +21,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/60 backdrop-blur-xl backdrop-saturate-[1.8]">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <nav className="mx-auto flex h-12 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Logo size="md" />
 
@@ -33,7 +33,7 @@ export function Navbar() {
               href={link.href}
               aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
-                "rounded-full px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] transition-colors",
+                "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.1em] transition-colors",
                 pathname === link.href
                   ? "rounded-full bg-foreground text-background"
                   : "rounded-full border border-border text-muted-foreground hover:bg-secondary",
@@ -83,7 +83,7 @@ export function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   aria-current={pathname === link.href ? "page" : undefined}
                   className={cn(
-                    "min-h-11 rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-accent active:bg-accent",
+                    "min-h-10 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent active:bg-accent",
                     pathname === link.href
                       ? "text-foreground"
                       : "text-muted-foreground",
@@ -93,10 +93,20 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="mt-2 flex flex-col gap-2">
-                <Button variant="outline" size="sm" className="min-h-11" asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="min-h-10"
+                  asChild
+                >
                   <Link href="/login">Log in</Link>
                 </Button>
-                <Button size="sm" className="min-h-11" asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="min-h-10"
+                  asChild
+                >
                   <Link href="/signup">Get Started</Link>
                 </Button>
               </div>
