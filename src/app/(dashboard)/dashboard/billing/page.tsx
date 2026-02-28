@@ -314,14 +314,11 @@ export default async function BillingPage() {
                       {invoice.stripe_invoice_id ?? invoice.id.slice(0, 8)}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(invoice.created_at).toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        },
-                      )}
+                      {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }).format(new Date(invoice.created_at))}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
