@@ -50,7 +50,7 @@ const recentActivity = [
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
       <FadeIn>
         <div>
@@ -79,7 +79,7 @@ export default function DashboardPage() {
                     </p>
                     <p className="mt-1 text-xl font-semibold">{stat.value}</p>
                   </div>
-                  <div className="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-secondary to-background">
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-linear-to-br from-secondary to-background">
                     <stat.icon className="size-4 text-foreground" />
                   </div>
                 </div>

@@ -55,7 +55,7 @@ export default async function ProfilePage() {
   const email = profile?.email ?? user?.email ?? "";
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
         <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
           <Home className="size-4" />
