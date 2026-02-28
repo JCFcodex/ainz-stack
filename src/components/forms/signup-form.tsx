@@ -123,6 +123,7 @@ export function SignupForm() {
             type="email"
             placeholder="you@example.com"
             autoComplete="email"
+            spellCheck={false}
             {...register("email")}
             error={errors.email?.message}
           />
