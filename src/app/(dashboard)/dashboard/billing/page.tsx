@@ -166,7 +166,7 @@ export default async function BillingPage() {
                 <div
                   key={plan.key}
                   className={cn(
-                    "flex flex-col rounded-2xl border bg-card p-6 transition-all",
+                    "flex flex-col rounded-2xl border bg-card p-6 transition-[border-color,box-shadow,transform]",
                     isCurrent
                       ? "border-foreground shadow-sm"
                       : "border-border shadow-soft",

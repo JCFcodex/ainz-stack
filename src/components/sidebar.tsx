@@ -69,7 +69,7 @@ export function Sidebar({ onNavigate, isMobile = false }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "flex h-screen flex-col bg-card border-r border-border transition-all duration-300",
+        "flex h-screen flex-col bg-card border-r border-border transition-[width] duration-300",
         isCollapsed ? "w-16" : "w-56",
       )}
     >
