@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
 
@@ -153,45 +154,90 @@ export default async function BillingPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-6 lg:gap-8 md:grid-cols-3">
             {plans.map((plan) => {
               const isCurrent = plan.key === currentPlan;
               const canPurchase = plan.key !== "free";
+              const isPro = plan.key === "pro";
 
               return (
                 <div
                   key={plan.key}
-                  className={`rounded-lg border p-4 ${
-                    isCurrent ? "border-foreground" : "border-border"
-                  }`}
+                  className={cn(
+                    "flex flex-col rounded-2xl border bg-card p-6 transition-all",
+                    isCurrent
+                      ? "border-foreground shadow-sm"
+                      : "border-border shadow-soft",
+                    isPro
+                      ? "border-[2px] border-foreground shadow-[0px_8px_32px_rgba(0,0,0,0.08)] scale-[1.02]"
+                      : "",
+                  )}
                 >
-                  <p className="text-sm font-semibold">{plan.name}</p>
-                  <p className="mt-1 text-2xl font-bold">{plan.price}</p>
-                  <p className="text-xs text-muted-foreground">{plan.period}</p>
-                  <Separator className="my-3" />
-                  <ul className="space-y-1">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-1.5 text-xs">
-                        <Check className="size-3 text-foreground" />
-                        <span className="text-muted-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-semibold">{plan.name}</p>
+                      {isPro && (
+                        <Badge
+                          variant="default"
+                          className="text-[10px] uppercase tracking-wider"
+                        >
+                          Most Popular
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="mt-4 text-4xl font-bold tracking-tighter">
+                      {plan.price}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {plan.period}
+                    </p>
+                    <Separator className="my-5" />
+                    <ul className="space-y-3">
+                      {plan.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-center gap-2.5 text-sm"
+                        >
+                          <div className="flex size-4 items-center justify-center rounded-full bg-foreground text-background">
+                            <Check className="size-2.5" />
+                          </div>
+                          <span className="text-muted-foreground">
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                  <div className="mt-3">
+                  <div className="mt-8">
                     {isCurrent ? (
-                      <Button size="sm" className="w-full" variant="secondary" disabled>
-                        Current
+                      <Button
+                        size="default"
+                        className="w-full"
+                        variant="outline"
+                        disabled
+                      >
+                        Current Plan
                       </Button>
                     ) : canPurchase ? (
                       <form action={checkoutAction}>
                         <input type="hidden" name="plan" value={plan.key} />
-                        <Button size="sm" className="w-full" type="submit">
+                        <Button
+                          size="default"
+                          className="w-full"
+                          variant={isPro ? "default" : "outline"}
+                          type="submit"
+                        >
                           {`Choose ${plan.name}`}
                         </Button>
                       </form>
                     ) : (
-                      <Button size="sm" className="w-full" variant="outline" disabled>
+                      <Button
+                        size="default"
+                        className="w-full"
+                        variant="outline"
+                        disabled
+                      >
                         Included
                       </Button>
                     )}
