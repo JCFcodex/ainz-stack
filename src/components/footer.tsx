@@ -22,7 +22,11 @@ const resourceLinks: FooterLink[] = [
     href: "https://supabase.com/docs/reference/javascript",
     external: true,
   },
-  { label: "Project Repo", href: "https://github.com/JCFcodex/ainz-stack", external: true },
+  {
+    label: "Project Repo",
+    href: "https://github.com/JCFcodex/ainz-stack",
+    external: true,
+  },
   {
     label: "Community",
     href: "https://github.com/JCFcodex/ainz-stack/discussions",
@@ -62,8 +66,8 @@ function FooterLinks({ links }: { links: FooterLink[] }) {
 export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <Logo size="sm" />
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
@@ -95,7 +99,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-border pt-4 sm:flex-row">
           <p className="text-xs text-muted-foreground">
             © 2026 AinzStack by JCFcodex. All rights reserved.
           </p>
