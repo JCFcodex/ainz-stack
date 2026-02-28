@@ -33,7 +33,7 @@ export default function DashboardLayout({
   }, [mobileOpen]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-secondary">
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
         <Sidebar />
@@ -69,7 +69,7 @@ export default function DashboardLayout({
       {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Mobile Topbar */}
-        <header className="flex h-14 items-center gap-3 border-b border-border px-4 md:hidden">
+        <header className="flex h-14 items-center gap-3 border-b border-border bg-card px-4 md:hidden">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="rounded-lg p-2 text-foreground transition-colors hover:bg-accent"
@@ -89,7 +89,9 @@ export default function DashboardLayout({
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          {children}
+        </main>
       </div>
     </div>
   );
